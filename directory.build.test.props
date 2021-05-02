@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+ <PropertyGroup>
+  <XunitSettingsFile Condition=" '$(TestPrefix)' == '' ">xunit.runner.json</XunitSettingsFile>
+ </PropertyGroup>
+
+  <ItemGroup Condition=" '$(IsTestProject)' == 'true' And '$(IsXunitProject)' == 'true' ">
+    <None Include="$(MSBuildThisFileDirectory)$(XunitSettingsFile)" Link="$(XunitSettingsFile)" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Xunit.Priority" Version="1.1.6" />
+    <PackageReference Include="Xunit.SkippableFact" Version="1.3.12" />
+    <None Include="$(MSBuildThisFileDirectory)$(TestPrefix)$(XunitSettingsFile)" Link="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+  </ItemGroup>
+  
+</Project>

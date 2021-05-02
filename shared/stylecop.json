@@ -1,0 +1,20 @@
+{
+  // ACTION REQUIRED: This file was automatically added to your project, but it
+  // will not take effect until additional steps are taken to enable it.
+  // Select the file in Solution Explorer.
+  // In the Visual Studio 2017 Properties window, set the value for Build Action to:
+  //   For most projects: AdditionalFiles
+  //   For projects using the new project system, including .NET Core and .NET Standard projects: C# analyzer additional file.
+  //
+  // See the following page for additional information:
+  //
+  // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/EnableConfiguration.md
+
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "namingRules": {
+      // allow additional prefixes beyond the standard set.
+      "allowedHungarianPrefixes": [ "id", "ui" ]
+    }
+  }
+}

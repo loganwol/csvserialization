@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net472;netstandard2.1</TargetFrameworks>
+    <RootNamespace>CSV.Serialization</RootNamespace>
+    <AssemblyName>CSV.Serialization</AssemblyName>
+    <OutputPath>$(SolutionDir)publish\bin\$(Configuration)\$(Platform)\$(AssemblyName)</OutputPath>
+    
+    <Version Condition=" '$(BUILD_BUILDNUMBER)' != '' ">$(AssemblyVersion)</Version>
+    <PackageId>csvserialization</PackageId>
+    <RepositoryUrl>https://github.com/loganwol/csvserialization/</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/loganwol/csvserialization/</PackageProjectUrl>
+    <Description>Serialize and Deserialize CSV files based on C# objects.</Description>
+    <Authors>loganwol</Authors>
+    <Product>CSV.Serialization</Product>
+    <AssemblyVersion>$(BUILD_BUILDNUMBER)</AssemblyVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Debug\**" />
+    <Compile Remove="Properties\**" />
+    <Compile Remove="Release\**" />
+    <EmbeddedResource Remove="Debug\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <EmbeddedResource Remove="Release\**" />
+    <None Remove="Debug\**" />
+    <None Remove="Properties\**" />
+    <None Remove="Release\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Validation" Version="2.4.22" />
+  </ItemGroup>
+</Project>

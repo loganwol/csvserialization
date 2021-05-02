@@ -1,0 +1,77 @@
+# .NET Desktop
+# Build and run tests for .NET Desktop or Windows classic desktop solutions.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
+trigger:
+- main
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  major: 1
+  minor: 1
+  vmImageName: 'windows-latest'
+
+name: $(major).$(minor)$(Rev:.r)
+
+
+stages:
+- stage: "BuildandRunUnitTests"
+  displayName: "Build project and run unit tests"
+
+  jobs: 
+    - job: "BuildandRunUnittests"
+      displayName: "Build and run unit tests"
+      pool:
+        name: 'Azure Pipelines'
+        vmImage: $(vmImageName)
+        demands: VSTest
+
+      steps:
+      - task: NuGetToolInstaller@1
+
+      - task: NuGetCommand@2
+        inputs:
+          restoreSolution: '$(solution)'
+
+      - task: VSBuild@1
+        displayName: "Build Release"
+        inputs:
+          solution: '$(solution)'
+          platform: '$(buildPlatform)'
+          configuration: 'Release'
+
+      - task: VSBuild@1
+        displayName: "Build Debug"
+        inputs:
+          solution: '$(solution)'
+          platform: '$(buildPlatform)'
+          configuration: 'Debug'
+
+      - task: VSTest@2
+        displayName: "Run Unit tests on Release build"
+        inputs:
+          platform: '$(buildPlatform)'
+          configuration: 'Release'
+          testSelector: testAssemblies
+          testAssemblyVer2: |
+            **\*test.unit*.dll
+            !**\*TestAdapter.dll
+            !**\obj\** 
+          codeCoverageEnabled: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish Build"
+        inputs:
+          PathtoPublish: '.\publish\Bin\Release\AnyCPU\CSV.Serialization'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+        condition: always()
+
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish nuget package"
+        inputs:
+          PathtoPublish: '.\publish\Bin\Release\AnyCPU\CSV.Serialization\csvserialization.$(Build.BuildNumber).nupkg'
+          ArtifactName: 'nugetpkg'
+          publishLocation: 'Container'
