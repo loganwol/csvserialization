@@ -125,20 +125,11 @@
         /// Gets or sets this to use when there are no headers for
         /// the file that needs to be deserialized.
         /// </summary>
-        public string Headers
+        public List<string> Headers
         {
             get
             {
-                return string.Join(this.CSVSeparator.ToString(), this.columnsinfile);
-            }
-
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    this.columnsinfile = value.Split(this.CSVSeparator);
-                    this.usingcustomheader = true;
-                }
+                return this.properties.OrderBy(r => r.Item1).Select(r => r.Item2.Name).ToList();
             }
         }
 
@@ -532,12 +523,12 @@
             if (parts.Length < this.columnsinfile.Length)
             {
                 Debug.WriteLine("Break here and investigate!.");
-                Debugger.Break();
+                //Debugger.Break();
             }
 
             T datum = new T();
             int start = this.UseLineNumbers ? 1 : 0;
-            for (int i = start; i < this.columnsinfile.Length; i++)
+            for (int i = start; i < this.columnsinfile.Length && i < parts.Length; i++)
             {
                 string value = parts[i];
                 if (i == this.columnsinfile.Length - 1 && parts.Length > this.columnsinfile.Length)
